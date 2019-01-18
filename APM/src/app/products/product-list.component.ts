@@ -43,4 +43,9 @@ export class ProductListComponent implements OnInit {
             this.filteredProducts = this.products;
         }
     }
+
+    onFilterChange(message: string) {
+      this.performFilter(message);
+      this.listFilter = message;
+    }
 }
