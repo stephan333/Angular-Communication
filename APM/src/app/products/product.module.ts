@@ -9,6 +9,9 @@ import { ProductEditComponent } from './edit/product-edit.component';
 
 import { ProductService } from './product.service';
 import { ProductEditGuard } from './edit/product-edit-guard.service';
+import { ProductShellDetailComponent } from './product-shell/product-shell-detail.component';
+import { ProductShellListComponent } from './product-shell/product-shell-list.component';
+import { ProductShellComponent } from './product-shell/product-shell.component';
 
 @NgModule({
   imports: [
@@ -26,7 +29,10 @@ import { ProductEditGuard } from './edit/product-edit-guard.service';
   declarations: [
     ProductListComponent,
     ProductDetailComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    ProductShellComponent,
+    ProductShellListComponent,
+    ProductShellDetailComponent
   ],
   providers: [
     ProductService,
