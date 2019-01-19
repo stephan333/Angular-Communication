@@ -1,14 +1,9 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import { IProduct } from './product';
 import { ProductService } from './product.service';
 import { NgModel } from '@angular/forms';
+import { CriteriaComponent } from '../shared/criteria/criteria.component';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -16,19 +11,21 @@ import { NgModel } from '@angular/forms';
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
   pageTitle: string = 'Product List';
-  listFilter: string;
   showImage: boolean;
+  includeDetail: boolean = true;
 
   imageWidth: number = 50;
   imageMargin: number = 2;
   errorMessage: string;
 
-  @ViewChild('filterElement') filterElementRef: ElementRef;
-
   @ViewChild(NgModel) filterInput: NgModel;
+  // @ViewChild('filterCriteria') filterComponent: CriteriaComponent;
+  @ViewChild(CriteriaComponent) filterComponent: CriteriaComponent;
+  parentListFilter: string;
 
   filteredProducts: IProduct[];
   products: IProduct[];
+  listFilter: string;
 
   constructor(private productService: ProductService) {}
 
@@ -36,18 +33,14 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts().subscribe(
       (products: IProduct[]) => {
         this.products = products;
-        this.performFilter(this.listFilter);
+        this.performFilter(this.parentListFilter);
       },
       (error: any) => (this.errorMessage = <any>error)
     );
   }
 
   ngAfterViewInit(): void {
-    this.filterInput.valueChanges.subscribe(() =>
-      this.performFilter(this.listFilter)
-    );
-
-    this.filterElementRef.nativeElement.focus();
+    this.parentListFilter = this.filterComponent.listFilter;
   }
 
   toggleImage(): void {
