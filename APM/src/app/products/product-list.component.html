@@ -3,7 +3,15 @@
 
   <div class="panel-body">
     <!-- Filter by the Title   -->
-    <div class="row"><pm-criteria #filterCriteria class="col-md-10" [displayDetail]='includeDetail' [hitCount]='filteredProducts?.length'></pm-criteria></div>
+    <div class="row">
+      <pm-criteria
+        #filterCriteria
+        class="col-md-10"
+        [displayDetail]="includeDetail"
+        [hitCount]="filteredProducts?.length"
+        (valueChange)="onValueChange($event)"
+      ></pm-criteria>
+    </div>
 
     <div class="table-responsive">
       <table class="table" *ngIf="products && products.length">

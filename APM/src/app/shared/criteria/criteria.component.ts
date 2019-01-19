@@ -6,7 +6,9 @@ import {
   AfterViewInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -15,10 +17,21 @@ import {
   styleUrls: ['./criteria.component.css']
 })
 export class CriteriaComponent implements OnInit, AfterViewInit, OnChanges {
-  listFilter: string;
+  private _listFilter: string;
+
+  public get listFilter(): string {
+    return this._listFilter;
+  }
+
+  public set listFilter(value: string) {
+    this._listFilter = value;
+    this.valueChange.emit(value);
+  }
+
   @ViewChild('filterElement') filterElementRef: ElementRef;
   @Input() displayDetail: boolean;
   @Input() hitCount: number;
+  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
   hitMessage: string;
 
   constructor() {}
