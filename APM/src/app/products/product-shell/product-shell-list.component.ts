@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { IProduct } from '../product';
 import { ProductService } from '../product.service';
+import { UrlHandlingStrategy } from '@angular/router';
 
 @Component({
   selector: 'pm-product-shell-list',
@@ -11,10 +12,15 @@ export class ProductShellListComponent implements OnInit {
   pageTitle: string = 'Products';
   errorMessage: string;
   products: IProduct[];
+  selectedProduct: IProduct | null;
 
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
+    this.productService.selectedProductChanges$.subscribe(
+      selectedProduct => (this.selectedProduct = selectedProduct)
+    );
+
     this.productService.getProducts().subscribe(
       (products: IProduct[]) => {
         this.products = products;
