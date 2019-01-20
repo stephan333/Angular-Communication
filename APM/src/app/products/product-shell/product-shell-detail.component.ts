@@ -10,13 +10,13 @@ import { timer } from 'rxjs/observable/timer';
 export class ProductShellDetailComponent implements OnInit {
   pageTitle: string = 'Product Detail';
 
-  get product(): IProduct | null {
-    return this.productService.currentProduct;
-  }
+  product: IProduct | null;
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    // timer(0, 1000).subscribe(t => console.log(this.product));
+    this.productService.selectedProductChanges$.subscribe(
+      selectedProduct => (this.product = selectedProduct)
+    );
   }
 }
