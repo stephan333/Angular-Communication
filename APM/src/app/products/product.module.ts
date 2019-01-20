@@ -18,7 +18,7 @@ import { ProductParameterService } from './product-parameter.service';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: '', component: ProductListComponent },
+      { path: '', component: ProductShellComponent },
       { path: ':id', component: ProductDetailComponent },
       {
         path: ':id/edit',

@@ -17,6 +17,7 @@ import { IProduct } from './product';
 export class ProductService {
   private productsUrl = 'api/products';
   private products: Array<IProduct>;
+  currentProduct: IProduct | null;
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +28,7 @@ export class ProductService {
 
     return this.http.get<IProduct[]>(this.productsUrl).pipe(
       tap(data => console.log(JSON.stringify(data))),
-      tap(data => this.products = data),
+      tap(data => (this.products = data)),
       catchError(this.handleError)
     );
   }
@@ -56,12 +57,13 @@ export class ProductService {
 
     const url = `${this.productsUrl}/${id}`;
     return this.http.delete<IProduct>(url, { headers: headers }).pipe(
-      tap(deletedProduct => console.log('deleteProduct: ' + id)),
-      tap(deletedProduct => {
+      tap(() => console.log('deleteProduct: ' + id)),
+      tap(() => {
         const foundIndex = this.products.findIndex(item => item.id === id);
 
         if (foundIndex > -1) {
           this.products.splice(foundIndex, 1);
+          this.currentProduct = null;
         }
       }),
       catchError(this.handleError)
@@ -77,8 +79,13 @@ export class ProductService {
     return this.http
       .post<IProduct>(this.productsUrl, product, { headers: headers })
       .pipe(
-        tap(newProduct => console.log('createProduct: ' + JSON.stringify(newProduct))),
-        tap(newProduct => this.products.push(newProduct)),
+        tap(newProduct =>
+          console.log('createProduct: ' + JSON.stringify(newProduct))
+        ),
+        tap(newProduct => {
+          this.products.push(newProduct);
+          this.currentProduct = newProduct;
+        },
         catchError(this.handleError)
       );
   }
