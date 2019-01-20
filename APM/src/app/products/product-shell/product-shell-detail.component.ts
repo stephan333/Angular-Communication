@@ -17,6 +17,6 @@ export class ProductShellDetailComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    timer(0, 1000).subscribe(t => console.log(this.product));
+    // timer(0, 1000).subscribe(t => console.log(this.product));
   }
 }
